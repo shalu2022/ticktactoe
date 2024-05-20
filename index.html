@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .cell{
+            border: 1px solid black;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #btn{
+            margin-top: 10px;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div id="result"></div>
+    <div id="player"></div>
+    <div class="container">
+        <div id="cell1" class="cell"></div>
+        <div id="cell2" class="cell"></div>
+        <div id="cell3" class="cell"></div>
+        <div id="cell4" class="cell"></div>
+        <div id="cell5" class="cell"></div>
+        <div id="cell6" class="cell"></div>
+        <div id="cell7" class="cell"></div>
+        <div id="cell8" class="cell"></div>
+        <div id="cell9" class="cell"></div>
+    </div>
+    <button id="btn">Reset</button>
+    <script>
+        let players = ["X", "0"]
+        let currentPlayer = players[0]
+        let winnerFound = false
+        let winningCombos = [[0, 1, 2],[3, 4, 5],[6, 7, 8],[0, 3, 6],[1, 4, 7],[2, 5, 8],[0, 4, 8],[2, 4, 6]]
+        const cell = document.getElementsByClassName("cell")
+        const ele = document.createElement("h1")
+        const result = document.getElementById("result")
+        const btn = document.getElementById("btn")
+        result.appendChild(ele);
+        ele.textContent=`Player ${currentPlayer}'s turn!`
+
+        function reset(){
+            for(let i=0; i<cell.length; i++){
+                cell[i].textContent = ""
+                cell[i].style.backgroundColor = "transparent"
+            }
+            winnerFound=false
+            ele.textContent=`Player X's turn!`
+        }
+
+        function checkWinner(currentPlayer){
+            for(let i=0; i<winningCombos.length; i++){
+                    const [a,b,c] = winningCombos[i]
+                    if(cell[a].textContent===currentPlayer && cell[b].textContent===currentPlayer&&cell[c].textContent===currentPlayer){        
+                        return winningCombos[i]
+                    }                  
+
+                }
+                    return []
+        }
+        function clickHandler(e){
+            if(e.target.textContent) return
+            if (winnerFound){
+                ele.textContent =`Please Reset the Game!!!`
+                return
+            } 
+            e.target.textContent = currentPlayer
+            const winner = checkWinner(currentPlayer)
+            if(winner.length > 0){
+                const [a,b,c]=winner
+                for(let i=0; i<winner.length; i++){
+                    cell[winner[i]].style.backgroundColor = "red"
+                }
+                ele.textContent = `Player: ${currentPlayer} won!!!`;
+                // result.appendChild(ele.appendChild(document.createTextNode(`Player: ${currentPlayer} won!!!`)))
+                winnerFound = true
+
+                return
+            }
+            currentPlayer = (currentPlayer === players[0]) ? players[1]: players[0]
+            ele.textContent=`Player ${currentPlayer}'s turn!`
+            }
+
+        for(let i=0; i<cell.length; i++){
+            cell[i].addEventListener("click", clickHandler)
+        }
+
+        btn.addEventListener("click",()=>{
+            reset()
+        })
+    </script>
+</body>
+</html>
