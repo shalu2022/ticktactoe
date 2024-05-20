@@ -4,24 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        body{
+            background-color: #FFE8C8;
+        }
+        .main{
+            display: flex;
+            margin-top: 100px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 500px;
+        }
         .container{
             display: grid;
             grid-template-columns: repeat(3, 1fr);
+            width: 30%;
+            margin: auto;
+            box-shadow: #ACD793 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
         }
         .cell{
-            border: 1px solid black;
-            height: 50px;
+            border: 1px solid #FFA62F;
+            height: 100px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         #btn{
-            margin-top: 10px;
+            margin-top: 20px;
+            width: 100px;
+            height: 50px;
+            background-color: #FFC96F;
+            border-color: transparent;
+            font-size: 20px;
+            border-radius: 10%;
         }
     </style>
     <title>Document</title>
 </head>
 <body>
+    <div class="main">
     <div id="result"></div>
     <div id="player"></div>
     <div class="container">
@@ -36,6 +57,7 @@
         <div id="cell9" class="cell"></div>
     </div>
     <button id="btn">Reset</button>
+    </div>
     <script>
         let players = ["X", "0"]
         let currentPlayer = players[0]
@@ -74,11 +96,12 @@
                 return
             } 
             e.target.textContent = currentPlayer
+            e.target.style.fontSize = "40px"
             const winner = checkWinner(currentPlayer)
             if(winner.length > 0){
                 const [a,b,c]=winner
                 for(let i=0; i<winner.length; i++){
-                    cell[winner[i]].style.backgroundColor = "red"
+                    cell[winner[i]].style.backgroundColor = "#ACD793"
                 }
                 ele.textContent = `Player: ${currentPlayer} won!!!`;
                 // result.appendChild(ele.appendChild(document.createTextNode(`Player: ${currentPlayer} won!!!`)))
